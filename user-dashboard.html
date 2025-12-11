@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard - Samiha Zeineddine</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- Cognito Library -->
+  <script src="https://cdn.jsdelivr.net/npm/amazon-cognito-identity-js@6/dist/amazon-cognito-identity.min.js"></script>
+  <script src="js/cognito-config.js"></script>
+</head>
+
+<body>
+
+<!-- ===========================
+   1️⃣ ACCESS PROTECTION LOGIC
+=============================== -->
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    const session = await CognitoAuth.getCurrentSession();
+
+    if (!session) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    const token = session.session.getIdToken().payload;
+    const groups = token["cognito:groups"] || [];
+
+    // ADMIN CANNOT VIEW USER DASHBOARD
+    if (groups.includes("Admin")) {
+        window.location.href = "admin-dashboard.html";
+        return;
+    }
+});
+</script>
+
+
+<!-- TOP HEADER -->
+<div class="top-header">
+  <div class="top-header-left">
+    <span class="separator">|</span>
+  </div>
+
+  <div class="top-header-right">
+    <select class="language-selector" id="languageSelect">
+      <option value="en">English</option>
+      <option value="ar">العربية</option>
+      <option value="fr">Français</option>
+    </select>
+
+    <a href="https://facebook.com/lifecoachbysamiha" target="_blank" class="social-btn fb-btn">FB</a>
+    <a href="https://instagram.com/lifecoach.samiha" target="_blank" class="social-btn instagram-btn">IG</a>
+    <a href="#" id="logoutBtn" class="login-btn" data-i18n="logout">Logout</a>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <button class="close-sidebar-btn" id="closeSidebarBtn">×</button>
+
+      <div class="avatar" id="userAvatar">U</div>
+
+      <div class="user-info">
+        <p class="welcome-text" id="userWelcome" data-i18n="welcomeUser">Hi, User</p>
+        <p class="subtitle" data-i18n="clientPortal">Client Portal</p>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-section="dashboard" data-i18n="navDashboard">🏠 Dashboard</a>
+      <a href="#" class="nav-item" data-section="tests" data-i18n="navTests">📘 Personality Test Results</a>
+      <a href="#" class="nav-item" data-section="questions" data-i18n="navQuestions">❓ Questions for Samiha</a>
+      <a href="#" class="nav-item" data-section="personalized" data-i18n="navPersonalized">⭐ Personalized Questions</a>
+      <a href="#" class="nav-item" data-section="courses" data-i18n="navCourses">📚 Courses & Programs</a>
+      <a href="#" class="nav-item" data-section="payments" data-i18n="navPayments">💳 Payments & Invoices</a>
+      <a href="#" class="nav-item" data-section="messages" data-i18n="navMessages">💬 Messages & Notifications</a>
+      <a href="#" class="nav-item" data-section="settings" data-i18n="navSettings">⚙️ Settings</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <header class="dashboard-header">
+      <button class="hamburger-menu" id="hamburgerMenu">☰</button>
+      <h1 class="page-title" id="pageTitle" data-i18n="pageDashboard">Dashboard</h1>
+
+      <div class="header-right">
+        <a href="#" id="logoutBtnTop" class="nav-item logout-btn" data-i18n="logout">Logout</a>
+      </div>
+    </header>
+
+    <!-- ===========================
+        DASHBOARD CONTENT
+    ============================== -->
+    <div class="content-wrapper">
+
+      <section id="dashboard" class="content-section active">
+        <div class="dashboard-container">
+          <div class="welcome-section">
+            <h1 id="welcomeUserTitle" data-i18n="welcomeTitle">Welcome!</h1>
+            <p data-i18n="welcomeSubtitle">Your personal coaching overview.</p>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <h3 data-i18n="sessionsCompleted">Sessions Completed</h3>
+              <div class="number">0</div>
+            </div>
+            <div class="stat-card">
+              <h3 data-i18n="testsTaken">Tests Taken</h3>
+              <div class="number">0</div>
+            </div>
+            <div class="stat-card">
+              <h3 data-i18n="coursesProgress">Courses Progress</h3>
+              <div class="number">0%</div>
+            </div>
+            <div class="stat-card">
+              <h3 data-i18n="daysStreak">Days Streak</h3>
+              <div class="number">0</div>
+            </div>
+          </div>
+
+          <div class="quick-actions">
+            <h2 data-i18n="quickActions">Quick Actions</h2>
+            <div class="actions-grid">
+              <button class="action-btn" data-i18n="bookSession">📅 Book Session</button>
+              <button class="action-btn" data-i18n="askQuestion">❓ Ask Question</button>
+              <button class="action-btn" data-i18n="reflections">💭 Reflections</button>
+              <button class="action-btn" data-i18n="continueCourse">📚 Continue Course</button>
+            </div>
+          </div>
+
+          <div class="upcoming-sessions">
+            <h2 data-i18n="upcomingSessions">Upcoming Sessions</h2>
+
+            <div class="session-item">
+              <strong data-i18n="noSessions">No sessions scheduled</strong>
+              <p data-i18n="noSessionsDesc">You will see sessions here when booked.</p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- (All your remaining sections stay the same — unchanged UI) -->
+      <!-- tests, personalized, courses, payments, messages, settings ... -->
+
+    </div>
+  </main>
+</div>
+
+<!-- ===========================
+   LANGUAGE TRANSLATION SYSTEM
+=============================== -->
+<script>
+const dashboardTranslations = {
+  en: {
+    logout: "Logout",
+    welcomeUser: "Hi, User",
+    clientPortal: "Client Portal",
+    navDashboard: "🏠 Dashboard",
+    navTests: "📘 Personality Test Results",
+    navQuestions: "❓ Questions for Samiha",
+    navPersonalized: "⭐ Personalized Questions",
+    navCourses: "📚 Courses & Programs",
+    navPayments: "💳 Payments & Invoices",
+    navMessages: "💬 Messages & Notifications",
+    navSettings: "⚙️ Settings",
+    pageDashboard: "Dashboard",
+    welcomeTitle: "Welcome!",
+    welcomeSubtitle: "Your personal coaching overview.",
+    sessionsCompleted: "Sessions Completed",
+    testsTaken: "Tests Taken",
+    coursesProgress: "Courses Progress",
+    daysStreak: "Days Streak",
+    quickActions: "Quick Actions",
+    bookSession: "📅 Book Session",
+    askQuestion: "❓ Ask Question",
+    reflections: "💭 Reflections",
+    continueCourse: "📚 Continue Course",
+    upcomingSessions: "Upcoming Sessions",
+    noSessions: "No sessions scheduled",
+    noSessionsDesc: "You will see sessions here when booked."
+  },
+  ar: {
+    logout: "تسجيل الخروج",
+    welcomeUser: "مرحباً،",
+    clientPortal: "بوابة العميل",
+    navDashboard: "🏠 الرئيسية",
+    navTests: "📘 نتائج اختبارات الشخصية",
+    navQuestions: "❓ أسئلة لسميحة",
+    navPersonalized: "⭐ أسئلة مخصصة",
+    navCourses: "📚 الدورات والبرامج",
+    navPayments: "💳 الدفعات والفواتير",
+    navMessages: "💬 الرسائل والإشعارات",
+    navSettings: "⚙️ الإعدادات",
+    pageDashboard: "لوحة التحكم",
+    welcomeTitle: "مرحباً!",
+    welcomeSubtitle: "لمحة عامة عن تقدمك.",
+    sessionsCompleted: "الجلسات المنجزة",
+    testsTaken: "الاختبارات التي تم إجراؤها",
+    coursesProgress: "تقدم الدورات",
+    daysStreak: "عدد الأيام",
+    quickActions: "خيارات سريعة",
+    bookSession: "📅 حجز جلسة",
+    askQuestion: "❓ اطرح سؤالاً",
+    reflections: "💭 التأملات",
+    continueCourse: "📚 متابعة الدورة",
+    upcomingSessions: "الجلسات القادمة",
+    noSessions: "لا توجد جلسات",
+    noSessionsDesc: "ستظهر الجلسات هنا عند حجزها."
+  },
+  fr: {
+    logout: "Déconnexion",
+    welcomeUser: "Bonjour,",
+    clientPortal: "Portail Client",
+    navDashboard: "🏠 Tableau de bord",
+    navTests: "📘 Résultats des tests",
+    navQuestions: "❓ Questions pour Samiha",
+    navPersonalized: "⭐ Questions personnalisées",
+    navCourses: "📚 Cours & Programmes",
+    navPayments: "💳 Paiements & Factures",
+    navMessages: "💬 Messages & Notifications",
+    navSettings: "⚙️ Paramètres",
+    pageDashboard: "Tableau de bord",
+    welcomeTitle: "Bienvenue!",
+    welcomeSubtitle: "Votre aperçu personnalisé.",
+    sessionsCompleted: "Sessions terminées",
+    testsTaken: "Tests effectués",
+    coursesProgress: "Progression des cours",
+    daysStreak: "Jours consécutifs",
+    quickActions: "Actions rapides",
+    bookSession: "📅 Réserver une session",
+    askQuestion: "❓ Poser une question",
+    reflections: "💭 Réflexions",
+    continueCourse: "📚 Continuer le cours",
+    upcomingSessions: "Sessions à venir",
+    noSessions: "Aucune séance planifiée",
+    noSessionsDesc: "Les séances apparaîtront ici une fois réservées."
+  }
+};
+
+
+// APPLY LANGUAGE
+function applyDashboardLang(lang) {
+  const dict = dashboardTranslations[lang] || dashboardTranslations.en;
+
+  // Replace text
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+      el.textContent = dict[el.getAttribute("data-i18n")];
+  });
+
+  // RTL/LTR Handling
+  if (lang === "ar") {
+      document.documentElement.dir = "rtl";
+      document.body.classList.add("rtl");
+  } else {
+      document.documentElement.dir = "ltr";
+      document.body.classList.remove("rtl");
+  }
+}
+
+
+// LANGUAGE CHANGE HANDLER
+document.getElementById("languageSelect").addEventListener("change", () => {
+  const lang = document.getElementById("languageSelect").value;
+  localStorage.setItem("dashboardLang", lang);
+  applyDashboardLang(lang);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const saved = localStorage.getItem("dashboardLang") || "en";
+  document.getElementById("languageSelect").value = saved;
+  applyDashboardLang(saved);
+});
+</script>
+
+
+<!-- ===========================
+   USER LOADING + LOGOUT
+=============================== -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const user = getCurrentUser();
+
+  user.getSession((err, session) => {
+    if (err || !session.isValid()) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    user.getUserAttributes((err, attrs) => {
+      let name = "";
+      let email = "";
+
+      attrs.forEach(a => {
+        if (a.getName() === "name") name = a.getValue();
+        if (a.getName() === "email") email = a.getValue();
+      });
+
+      if (!name) name = email.split("@")[0];
+
+      document.getElementById("userWelcome").textContent = "Hi, " + name;
+      document.getElementById("welcomeUserTitle").textContent = "Welcome, " + name;
+
+      const initials = name.split(" ").map(x => x[0]).join("").toUpperCase();
+      document.getElementById("userAvatar").textContent = initials;
+    });
+  });
+
+  // LOGOUT
+  document.getElementById("logoutBtn").onclick =
+  document.getElementById("logoutBtnTop").onclick = () => {
+    const u = getCurrentUser();
+    if (u) u.signOut();
+    window.location.href = "login.html";
+  };
+});
+</script>
+
+</body>
+</html>

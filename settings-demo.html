@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Settings - Samiha Zeineddine Life Coach">
+  <title>Settings</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    .settings-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    .settings-header {
+      background: linear-gradient(135deg, #8B7355 0%, #6d5844 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+
+    .settings-header h1 {
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 10px;
+    }
+
+    .settings-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #ddd;
+      flex-wrap: wrap;
+    }
+
+    .settings-tab-btn {
+      background: none;
+      border: none;
+      padding: 15px 20px;
+      cursor: pointer;
+      color: #666;
+      font-weight: bold;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s;
+    }
+
+    .settings-tab-btn.active {
+      color: #8B7355;
+      border-bottom-color: #8B7355;
+    }
+
+    .settings-tab-btn:hover {
+      color: #8B7355;
+    }
+
+    .settings-tab-content {
+      display: none;
+    }
+
+    .settings-tab-content.active {
+      display: block;
+    }
+
+    .settings-section {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .settings-section h2 {
+      color: #8B7355;
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #f0f0f0;
+      padding-bottom: 15px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      color: #333;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-family: 'Lato', sans-serif;
+      font-size: 14px;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #8B7355;
+      box-shadow: 0 0 5px rgba(139, 115, 85, 0.3);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .toggle-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+
+    .toggle-group label {
+      margin: 0;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 26px;
+      background: #ccc;
+      border-radius: 13px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .toggle-switch.active {
+      background: #8B7355;
+    }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      background: white;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      transition: left 0.3s;
+    }
+
+    .toggle-switch.active::after {
+      left: 26px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn-save {
+      background: #8B7355;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .btn-save:hover {
+      background: #6d5844;
+    }
+
+    .btn-cancel {
+      background: #999;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .btn-cancel:hover {
+      background: #777;
+    }
+
+    .btn-danger {
+      background: #d32f2f;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .btn-danger:hover {
+      background: #b71c1c;
+    }
+
+    .profile-picture {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: #8B7355;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .top-header {
+      background: #f5f5f5;
+      padding: 10px 20px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .top-header a {
+      color: #8B7355;
+      text-decoration: none;
+      margin: 0 10px;
+      font-size: 14px;
+    }
+
+    .top-header a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-header">
+    <div>
+      <a href="user-dashboard.html">← Back to Dashboard</a>
+    </div>
+    <div>
+      <a href="index.html">Home</a> | <a href="login.html">Logout</a>
+    </div>
+  </div>
+
+  <div class="settings-container">
+    <div class="settings-header">
+      <h1>Settings</h1>
+      <p>Manage your profile and preferences</p>
+    </div>
+
+    <div class="settings-tabs">
+      <button class="settings-tab-btn active" onclick="switchSettingsTab('profile')">👤 Profile</button>
+      <button class="settings-tab-btn" onclick="switchSettingsTab('preferences')">⚙️ Preferences</button>
+      <button class="settings-tab-btn" onclick="switchSettingsTab('security')">🔒 Security</button>
+      <button class="settings-tab-btn" onclick="switchSettingsTab('account')">💳 Account</button>
+    </div>
+
+    <!-- Profile Tab -->
+    <div id="profile" class="settings-tab-content active">
+      <div class="settings-section">
+        <h2>Profile Information</h2>
+        
+        <div class="profile-picture">MB</div>
+
+        <div class="form-group">
+          <label>Change Profile Picture</label>
+          <input type="file" accept="image/*">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" value="Marie" placeholder="First Name">
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" value="Belle" placeholder="Last Name">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" value="marie.belle@example.com" placeholder="Email">
+        </div>
+
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" value="+1 (555) 123-4567" placeholder="Phone">
+        </div>
+
+        <div class="form-group">
+          <label>Bio</label>
+          <textarea placeholder="Tell us about yourself...">I'm on a journey of self-discovery and personal growth. Excited to work with Samiha on my coaching journey!</textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Location</label>
+            <input type="text" value="New York, USA" placeholder="City, Country">
+          </div>
+          <div class="form-group">
+            <label>Timezone</label>
+            <select>
+              <option selected>Eastern Time (ET)</option>
+              <option>Central Time (CT)</option>
+              <option>Mountain Time (MT)</option>
+              <option>Pacific Time (PT)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="btn-save" onclick="alert('Profile updated successfully!')">Save Changes</button>
+          <button class="btn-cancel" onclick="alert('Changes cancelled')">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preferences Tab -->
+    <div id="preferences" class="settings-tab-content">
+      <div class="settings-section">
+        <h2>Communication Preferences</h2>
+
+        <div class="toggle-group">
+          <label>Email Notifications</label>
+          <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+        </div>
+
+        <div class="toggle-group">
+          <label>SMS Notifications</label>
+          <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+        </div>
+
+        <div class="toggle-group">
+          <label>Session Reminders</label>
+          <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+        </div>
+
+        <div class="toggle-group">
+          <label>Course Updates</label>
+          <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+        </div>
+
+        <div class="toggle-group">
+          <label>Marketing Emails</label>
+          <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h2>Session Preferences</h2>
+
+        <div class="form-group">
+          <label>Preferred Session Time</label>
+          <select>
+            <option selected>Afternoon (2:00 PM - 5:00 PM)</option>
+            <option>Morning (9:00 AM - 12:00 PM)</option>
+            <option>Evening (6:00 PM - 9:00 PM)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Preferred Session Format</label>
+          <select>
+            <option selected>Video Call (Zoom)</option>
+            <option>Phone Call</option>
+            <option>In-Person</option>
+            <option>No Preference</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Session Duration</label>
+          <select>
+            <option>30 minutes</option>
+            <option selected>60 minutes</option>
+            <option>90 minutes</option>
+          </select>
+        </div>
+
+        <div class="button-group">
+          <button class="btn-save" onclick="alert('Preferences updated successfully!')">Save Changes</button>
+          <button class="btn-cancel" onclick="alert('Changes cancelled')">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security Tab -->
+    <div id="security" class="settings-tab-content">
+      <div class="settings-section">
+        <h2>Password & Security</h2>
+
+        <div class="form-group">
+          <label>Current Password</label>
+          <input type="password" placeholder="Enter current password">
+        </div>
+
+        <div class="form-group">
+          <label>New Password</label>
+          <input type="password" placeholder="Enter new password">
+        </div>
+
+        <div class="form-group">
+          <label>Confirm New Password</label>
+          <input type="password" placeholder="Confirm new password">
+        </div>
+
+        <div class="button-group">
+          <button class="btn-save" onclick="alert('Password updated successfully!')">Update Password</button>
+          <button class="btn-cancel" onclick="alert('Changes cancelled')">Cancel</button>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h2>Two-Factor Authentication</h2>
+        <p style="color: #666; margin-bottom: 20px;">Add an extra layer of security to your account</p>
+
+        <div class="toggle-group">
+          <label>Enable 2FA</label>
+          <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+        </div>
+
+        <div class="button-group">
+          <button class="btn-save" onclick="alert('Setting up 2FA...')">Setup 2FA</button>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h2>Active Sessions</h2>
+        <p style="color: #666; margin-bottom: 20px;">Manage your active login sessions</p>
+
+        <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+          <strong>Current Device</strong>
+          <p style="color: #666; font-size: 14px; margin: 5px 0;">Chrome on Windows • Last active: Now</p>
+        </div>
+
+        <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+          <strong>iPhone</strong>
+          <p style="color: #666; font-size: 14px; margin: 5px 0;">Safari on iOS • Last active: 2 hours ago</p>
+          <button class="btn-danger" style="margin-top: 10px; padding: 8px 15px; font-size: 12px;" onclick="alert('Session terminated')">Sign Out</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Account Tab -->
+    <div id="account" class="settings-tab-content">
+      <div class="settings-section">
+        <h2>Billing Information</h2>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Cardholder Name</label>
+            <input type="text" value="Marie Belle" placeholder="Name">
+          </div>
+          <div class="form-group">
+            <label>Card Number</label>
+            <input type="text" value="**** **** **** 4242" placeholder="Card Number" disabled>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Expiry Date</label>
+            <input type="text" value="12/26" placeholder="MM/YY" disabled>
+          </div>
+          <div class="form-group">
+            <label>CVV</label>
+            <input type="text" value="***" placeholder="CVV" disabled>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="btn-save" onclick="alert('Updating billing information...')">Update Card</button>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h2>Subscription</h2>
+
+        <div style="background: #f9f9f9; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <div>
+              <strong style="color: #333; display: block; margin-bottom: 5px;">Premium Coaching Package</strong>
+              <span style="color: #666; font-size: 14px;">Billed monthly • Next billing: Dec 15, 2025</span>
+            </div>
+            <div style="font-size: 24px; font-weight: bold; color: #8B7355;">$299/mo</div>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="btn-save" onclick="alert('Managing subscription...')">Manage Subscription</button>
+          <button class="btn-danger" onclick="alert('Are you sure you want to cancel? This action cannot be undone.')">Cancel Subscription</button>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h2>Delete Account</h2>
+        <p style="color: #d32f2f; margin-bottom: 20px;"><strong>Warning:</strong> This action is permanent and cannot be undone. All your data will be deleted.</p>
+
+        <div class="button-group">
+          <button class="btn-danger" onclick="if(confirm('Are you absolutely sure? This will permanently delete your account and all data.')) alert('Account deletion initiated...')">Delete My Account</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchSettingsTab(tabName) {
+      // Hide all tabs
+      const tabs = document.querySelectorAll('.settings-tab-content');
+      tabs.forEach(tab => tab.classList.remove('active'));
+
+      // Remove active class from all buttons
+      const buttons = document.querySelectorAll('.settings-tab-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      // Show selected tab
+      document.getElementById(tabName).classList.add('active');
+
+      // Add active class to clicked button
+      event.target.classList.add('active');
+    }
+
+    function toggleSwitch(element) {
+      element.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Reflection Questions - Samiha Zeineddine Life Coach">
+  <title>Reflection Questions</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    .questions-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .language-selector-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .language-selector-modal.active {
+      display: flex;
+    }
+
+    .language-modal-content {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 400px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .language-modal-content h2 {
+      margin-bottom: 30px;
+      color: #333;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .language-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .language-btn {
+      padding: 12px 30px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background: #8B7355;
+      color: white;
+      transition: background 0.3s;
+    }
+
+    .language-btn:hover {
+      background: #6d5844;
+    }
+
+    .question-sets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .question-set-card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 25px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .question-set-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .question-set-card h3 {
+      color: #8B7355;
+      margin-bottom: 10px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .question-set-card p {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .start-btn {
+      background: #8B7355;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+      width: 100%;
+    }
+
+    .start-btn:hover {
+      background: #6d5844;
+    }
+
+    .question-set-detail {
+      display: none;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 30px;
+      margin-top: 30px;
+    }
+
+    .question-set-detail.active {
+      display: block;
+    }
+
+    .question-set-detail h2 {
+      color: #8B7355;
+      margin-bottom: 20px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .question-set-detail p {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .questions-list {
+      margin: 20px 0;
+    }
+
+    .question-item {
+      background: #f9f9f9;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-left: 4px solid #8B7355;
+      border-radius: 5px;
+    }
+
+    .question-item strong {
+      color: #333;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .question-item textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-family: 'Lato', sans-serif;
+      font-size: 14px;
+      resize: vertical;
+    }
+
+    .back-btn {
+      background: #999;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .back-btn:hover {
+      background: #777;
+    }
+
+    .page-title {
+      text-align: center;
+      color: #8B7355;
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 10px;
+    }
+
+    .page-subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .top-header {
+      background: #f5f5f5;
+      padding: 10px 20px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .top-header a {
+      color: #8B7355;
+      text-decoration: none;
+      margin: 0 10px;
+      font-size: 14px;
+    }
+
+    .top-header a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-header">
+    <div>
+      <a href="index.html">← Back to Home</a>
+    </div>
+    <div>
+      <a href="user-dashboard.html">User Dashboard</a>
+    </div>
+  </div>
+
+  <div class="questions-container">
+    <h1 class="page-title" id="pageTitle">Reflection Questions</h1>
+    <p class="page-subtitle" id="pageSubtitle">Explore guided questions to deepen your self-awareness</p>
+
+    <!-- Language Selector Modal -->
+    <div class="language-selector-modal active" id="languageModal">
+      <div class="language-modal-content">
+        <h2 id="selectLanguageText">Select Language</h2>
+        <div class="language-buttons">
+          <button class="language-btn" onclick="setLanguage('en')">English</button>
+          <button class="language-btn" onclick="setLanguage('ar')">العربية</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Question Sets Grid -->
+    <div class="question-sets-grid" id="questionSetsGrid">
+      <!-- Question sets will be populated by JavaScript -->
+    </div>
+
+    <!-- Question Set Detail View -->
+    <div class="question-set-detail" id="questionSetDetail">
+      <button class="back-btn" onclick="backToQuestionSets()" id="backBtn">← Back to Questions</button>
+      <h2 id="setTitle"></h2>
+      <p id="setDescription"></p>
+      <div class="questions-list" id="questionsList"></div>
+      <button class="back-btn" onclick="backToQuestionSets()" id="submitBtn">Save Answers</button>
+    </div>
+  </div>
+
+  <script>
+    // Translations
+    const translations = {
+      en: {
+        selectLanguage: 'Select Language',
+        pageTitle: 'Reflection Questions',
+        pageSubtitle: 'Explore guided questions to deepen your self-awareness',
+        backBtn: '← Back to Questions',
+        submitBtn: 'Save Answers',
+        startQuestions: 'Start Questions',
+        questionSets: [
+          {
+            id: 1,
+            title: 'Self-Discovery Questions',
+            description: 'Dive deep into understanding yourself through powerful reflection questions designed to uncover your values, beliefs, and authentic self.',
+            questions: [
+              'What are the three most important values in your life, and why?',
+              'Describe a moment when you felt truly authentic and aligned with yourself.',
+              'What beliefs about yourself have been holding you back from achieving your goals?'
+            ]
+          },
+          {
+            id: 2,
+            title: 'Goal Setting & Achievement',
+            description: 'Clarify your aspirations and create a roadmap for success with these goal-oriented reflection questions.',
+            questions: [
+              'What is your biggest goal for the next 12 months?',
+              'What obstacles might prevent you from achieving this goal, and how can you overcome them?',
+              'What small steps can you take this week to move closer to your goal?'
+            ]
+          },
+          {
+            id: 3,
+            title: 'Emotional Intelligence Development',
+            description: 'Enhance your emotional awareness and interpersonal skills through these transformative questions.',
+            questions: [
+              'How do you typically respond to stress or difficult emotions?',
+              'Describe a recent conflict and how you handled it. What would you do differently?',
+              'What emotions do you struggle to express, and why?'
+            ]
+          }
+        ]
+      },
+      ar: {
+        selectLanguage: 'اختر اللغة',
+        pageTitle: 'أسئلة التأمل',
+        pageSubtitle: 'استكشف الأسئلة الموجهة لتعميق وعيك الذاتي',
+        backBtn: '← العودة إلى الأسئلة',
+        submitBtn: 'حفظ الإجابات',
+        startQuestions: 'ابدأ الأسئلة',
+        questionSets: [
+          {
+            id: 1,
+            title: 'أسئلة اكتشاف الذات',
+            description: 'انغمس في فهم نفسك من خلال أسئلة تأمل قوية مصممة للكشف عن قيمك ومعتقداتك وذاتك الحقيقية.',
+            questions: [
+              'ما هي القيم الثلاث الأكثر أهمية في حياتك، ولماذا؟',
+              'صف لحظة شعرت فيها بأنك حقيقي وفي انسجام مع نفسك.',
+              'ما المعتقدات حول نفسك التي تمنعك من تحقيق أهدافك؟'
+            ]
+          },
+          {
+            id: 2,
+            title: 'تحديد الأهداف والإنجاز',
+            description: 'وضح طموحاتك وأنشئ خريطة طريق للنجاح من خلال أسئلة التأمل الموجهة نحو الأهداف.',
+            questions: [
+              'ما أكبر هدف لديك للأشهر الـ 12 القادمة؟',
+              'ما العقبات التي قد تمنعك من تحقيق هذا الهدف، وكيف يمكنك التغلب عليها؟',
+              'ما الخطوات الصغيرة التي يمكنك اتخاذها هذا الأسبوع للاقتراب من هدفك؟'
+            ]
+          },
+          {
+            id: 3,
+            title: 'تطوير الذكاء العاطفي',
+            description: 'عزز وعيك العاطفي ومهاراتك الشخصية من خلال هذه الأسئلة التحويلية.',
+            questions: [
+              'كيف تستجيب عادة للضغط أو المشاعر الصعبة؟',
+              'صف نزاعاً حديثاً وكيفية تعاملك معه. ماذا ستفعل بشكل مختلف؟',
+              'ما المشاعر التي تجد صعوبة في التعبير عنها، ولماذا؟'
+            ]
+          }
+        ]
+      }
+    };
+
+    let currentLanguage = 'en';
+
+    function setLanguage(lang) {
+      currentLanguage = lang;
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      
+      // Hide language modal
+      document.getElementById('languageModal').classList.remove('active');
+      
+      // Update page content
+      updatePageContent();
+      renderQuestionSets();
+    }
+
+    function updatePageContent() {
+      const t = translations[currentLanguage];
+      document.getElementById('pageTitle').textContent = t.pageTitle;
+      document.getElementById('pageSubtitle').textContent = t.pageSubtitle;
+      document.getElementById('selectLanguageText').textContent = t.selectLanguage;
+      document.getElementById('backBtn').textContent = t.backBtn;
+      document.getElementById('submitBtn').textContent = t.submitBtn;
+    }
+
+    function renderQuestionSets() {
+      const t = translations[currentLanguage];
+      const questionSetsGrid = document.getElementById('questionSetsGrid');
+      questionSetsGrid.innerHTML = '';
+
+      t.questionSets.forEach(set => {
+        const setCard = document.createElement('div');
+        setCard.className = 'question-set-card';
+        setCard.onclick = () => showQuestionSetDetail(set.id);
+        setCard.innerHTML = `
+          <h3>${set.title}</h3>
+          <p>${set.description.substring(0, 100)}...</p>
+          <button class="start-btn">${t.startQuestions}</button>
+        `;
+        questionSetsGrid.appendChild(setCard);
+      });
+    }
+
+    function showQuestionSetDetail(setId) {
+      const t = translations[currentLanguage];
+      const set = t.questionSets.find(s => s.id === setId);
+      
+      if (!set) return;
+
+      document.getElementById('questionSetsGrid').style.display = 'none';
+      document.getElementById('questionSetDetail').classList.add('active');
+      document.getElementById('setTitle').textContent = set.title;
+      document.getElementById('setDescription').textContent = set.description;
+
+      const questionsList = document.getElementById('questionsList');
+      questionsList.innerHTML = '';
+
+      set.questions.forEach((question, index) => {
+        const questionItem = document.createElement('div');
+        questionItem.className = 'question-item';
+        questionItem.innerHTML = `
+          <strong>Question ${index + 1}:</strong>
+          <p>${question}</p>
+          <textarea placeholder="Write your reflection here..."></textarea>
+        `;
+        questionsList.appendChild(questionItem);
+      });
+    }
+
+    function backToQuestionSets() {
+      document.getElementById('questionSetsGrid').style.display = 'grid';
+      document.getElementById('questionSetDetail').classList.remove('active');
+    }
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      // Don't auto-render, wait for language selection
+    });
+  </script>
+</body>
+</html>

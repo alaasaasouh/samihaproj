@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Samiha Zeindine Coaching</title>
+    <link rel="stylesheet" href="css/loginForm.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+    <!-- Dashboard-style header (Home + Logout + Language) -->
+    <header class="dashboard-header">
+        <div class="header-left">
+            <span data-i18n="appName">Samiha Zeindine Coaching</span>
+        </div>
+        <div class="header-right">
+            <a href="logout.html" class="top-nav-link" data-i18n="navLogout">Logout</a>
+            <select class="language-selector" id="languageSelector">
+                <option value="en">EN</option>
+                <option value="fr">FR</option>
+                <option value="ar">AR</option>
+            </select>
+        </div>
+    </header>
+
+    <main class="login-page">
+        <h1 class="login-title" data-i18n="loginTitle">Login</h1>
+
+        <form id="loginForm" class="login-form">
+
+            <div class="form1">
+                <h2 data-i18n="loginWith">Login With</h2>
+                <a class="fa fa-google-plus icons" style="font-size: 26px;" href="https://www.gmail.com/" target="_blank"></a>
+
+                <div class="OR">
+                    <p data-i18n="orText">Or</p>
+                </div>
+            </div>
+
+            <!-- Fields -->
+            <div class="fields">
+                <div class="field-row">
+                    <i class="fa fa-user-circle-o" style="font-size: 20px" aria-hidden="true"></i>
+                    <input
+                        id="loginUsername"
+                        type="text"
+                        name="fullname"
+                        placeholder="Username..."
+                        data-i18n-placeholder="placeholderUsername">
+                </div>
+
+                <div class="field-row">
+                    <i class="fa fa-envelope" style="font-size: 20px" aria-hidden="true"></i>
+                    <input
+                        id="loginEmail"
+                        type="email"
+                        name="email"
+                        placeholder="Email..."
+                        data-i18n-placeholder="placeholderEmail"
+                        required>
+                </div>
+
+                <div class="field-row">
+                    <i class="fa fa-lock" style="font-size: 24px" aria-hidden="true"></i>
+                    <input
+                        id="loginPassword"
+                        type="password"
+                        name="password"
+                        placeholder="Password..."
+                        data-i18n-placeholder="placeholderPassword"
+                        required>
+                </div>
+            </div>
+
+            <div id="loginError" style="color:#b71c1c; font-size:0.85rem; margin-bottom:8px;"></div>
+
+            <div class="form-footer">
+                <div class="form-actions">
+                    <button type="submit" class="btn-auth btn-login" data-i18n="btnLogin">
+                        Login
+                    </button>
+                    <a href="register.html" class="btn-auth btn-register" data-i18n="btnRegister">Register</a>
+                </div>
+
+                <div class="forgot">
+                    <a href="#" class="forgotbtn" data-i18n="forgotPassword">FORGOT PASSWORD?</a>
+                </div>
+            </div>
+        </form>
+
+        <div class="footer-note" data-i18n="footerNote">
+            &copy; 2025 Samiha Zeindine. All rights reserved.
+        </div>
+    </main>
+
+    <!-- ============================================
+         LANGUAGE TRANSLATION SCRIPT
+    ============================================ -->
+    <script>
+        const translations = {
+            en: {
+                appName: "Samiha Zeindine Coaching",
+                navHome: "Home",
+                navLogout: "Logout",
+                loginTitle: "Login",
+                loginWith: "Login With",
+                orText: "Or",
+                placeholderUsername: "Username...",
+                placeholderEmail: "Email...",
+                placeholderPassword: "Password...",
+                btnLogin: "Login",
+                btnRegister: "Register",
+                forgotPassword: "FORGOT PASSWORD?",
+                footerNote: "© 2025 Samiha Zeindine. All rights reserved."
+            },
+            fr: {
+                appName: "Coaching Samiha Zeindine",
+                navHome: "Accueil",
+                navLogout: "Déconnexion",
+                loginTitle: "Connexion",
+                loginWith: "Se connecter avec",
+                orText: "Ou",
+                placeholderUsername: "Nom d'utilisateur...",
+                placeholderEmail: "E-mail...",
+                placeholderPassword: "Mot de passe...",
+                btnLogin: "Connexion",
+                btnRegister: "S'inscrire",
+                forgotPassword: "MOT DE PASSE OUBLIÉ ?",
+                footerNote: "© 2025 Samiha Zeindine. Tous droits réservés."
+            },
+            ar: {
+                appName: "سميحة زين الدين للتدريب",
+                navHome: "الرئيسية",
+                navLogout: "تسجيل الخروج",
+                loginTitle: "تسجيل الدخول",
+                loginWith: "تسجيل الدخول بواسطة",
+                orText: "أو",
+                placeholderUsername: "اسم المستخدم...",
+                placeholderEmail: "البريد الإلكتروني...",
+                placeholderPassword: "كلمة المرور...",
+                btnLogin: "تسجيل الدخول",
+                btnRegister: "إنشاء حساب",
+                forgotPassword: "هل نسيت كلمة المرور؟",
+                footerNote: "© ٢٠٢٥ سميحة زين الدين. جميع الحقوق محفوظة."
+            }
+        };
+
+        function applyTranslations(lang) {
+            const dict = translations[lang] || translations.en;
+
+            document.querySelectorAll("[data-i18n]").forEach(el => {
+                el.textContent = dict[el.getAttribute("data-i18n")];
+            });
+
+            document.querySelectorAll("[data-i18n-placeholder]").forEach(input => {
+                input.placeholder = dict[input.getAttribute("data-i18n-placeholder")];
+            });
+
+            if (lang === "ar") {
+                document.documentElement.lang = "ar";
+                document.documentElement.dir = "rtl";
+                document.body.classList.add("rtl");
+            } else {
+                document.documentElement.lang = lang;
+                document.documentElement.dir = "ltr";
+                document.body.classList.remove("rtl");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const selector = document.getElementById("languageSelector");
+            const savedLang = localStorage.getItem("siteLanguage") || "en";
+
+            selector.value = savedLang;
+            applyTranslations(savedLang);
+
+            selector.addEventListener("change", () => {
+                const lang = selector.value;
+                localStorage.setItem("siteLanguage", lang);
+                applyTranslations(lang);
+            });
+        });
+    </script>
+
+    <!-- Cognito SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/amazon-cognito-identity-js@6/dist/amazon-cognito-identity.min.js"></script>
+
+    <!-- Cognito Config -->
+    <script src="js/cognito-config.js"></script>
+
+    <!-- ============================================
+         LOGIN HANDLER WITH ADMIN REDIRECT
+    ============================================ -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('loginForm');
+        const emailInput = document.getElementById('loginEmail');
+        const passwordInput = document.getElementById('loginPassword');
+        const errorBox = document.getElementById('loginError');
+
+        if (!form) return;
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorBox.textContent = '';
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            if (!email || !password) {
+                errorBox.textContent = 'Please enter your email and password.';
+                return;
+            }
+
+            try {
+                await CognitoAuth.cognitoSignIn(email, password);
+
+                const session = await CognitoAuth.getCurrentSession();
+                const token = session.session.getIdToken().payload;
+
+                const groups = token["cognito:groups"] || [];
+
+                // ADMIN REDIRECT LOGIC
+                if (groups.includes("Admin")) {
+                    window.location.href = "admin-dashboard.html";
+                } else {
+                    window.location.href = "user-dashboard.html";
+                }
+
+            } catch (err) {
+                console.error(err);
+                errorBox.textContent = err.message || 'Login failed. Please check your credentials.';
+            }
+        });
+    });
+    </script>
+
+</body>
+</html>

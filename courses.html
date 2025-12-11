@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Courses - Samiha Zeineddine Life Coach">
+  <title>Courses & Programs</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    .courses-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .language-selector-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .language-selector-modal.active {
+      display: flex;
+    }
+
+    .language-modal-content {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 400px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .language-modal-content h2 {
+      margin-bottom: 30px;
+      color: #333;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .language-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .language-btn {
+      padding: 12px 30px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background: #8B7355;
+      color: white;
+      transition: background 0.3s;
+    }
+
+    .language-btn:hover {
+      background: #6d5844;
+    }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .course-card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 25px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .course-card h3 {
+      color: #8B7355;
+      margin-bottom: 10px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .course-card p {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .course-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #999;
+      margin-bottom: 15px;
+    }
+
+    .enroll-btn {
+      background: #8B7355;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+      width: 100%;
+    }
+
+    .enroll-btn:hover {
+      background: #6d5844;
+    }
+
+    .course-detail {
+      display: none;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 30px;
+      margin-top: 30px;
+    }
+
+    .course-detail.active {
+      display: block;
+    }
+
+    .course-detail h2 {
+      color: #8B7355;
+      margin-bottom: 20px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .course-detail p {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .course-info {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    .course-info-item {
+      margin-bottom: 10px;
+    }
+
+    .course-info-item strong {
+      color: #333;
+    }
+
+    .course-info-item span {
+      color: #666;
+    }
+
+    .modules-list {
+      margin: 20px 0;
+    }
+
+    .module-item {
+      background: #f9f9f9;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-left: 4px solid #8B7355;
+      border-radius: 5px;
+    }
+
+    .module-item strong {
+      color: #333;
+    }
+
+    .module-item p {
+      margin: 5px 0 0 0;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .back-btn {
+      background: #999;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .back-btn:hover {
+      background: #777;
+    }
+
+    .page-title {
+      text-align: center;
+      color: #8B7355;
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 10px;
+    }
+
+    .page-subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .top-header {
+      background: #f5f5f5;
+      padding: 10px 20px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .top-header a {
+      color: #8B7355;
+      text-decoration: none;
+      margin: 0 10px;
+      font-size: 14px;
+    }
+
+    .top-header a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-header">
+    <div>
+      <a href="index.html">← Back to Home</a>
+    </div>
+    <div>
+      <a href="user-dashboard.html">User Dashboard</a>
+    </div>
+  </div>
+
+  <div class="courses-container">
+    <h1 class="page-title" id="pageTitle">Courses & Programs</h1>
+    <p class="page-subtitle" id="pageSubtitle">Explore our comprehensive coaching courses designed to enhance your skills and knowledge</p>
+
+    <!-- Language Selector Modal -->
+    <div class="language-selector-modal active" id="languageModal">
+      <div class="language-modal-content">
+        <h2 id="selectLanguageText">Select Language</h2>
+        <div class="language-buttons">
+          <button class="language-btn" onclick="setLanguage('en')">English</button>
+          <button class="language-btn" onclick="setLanguage('ar')">العربية</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Courses Grid -->
+    <div class="courses-grid" id="coursesGrid">
+      <!-- Courses will be populated by JavaScript -->
+    </div>
+
+    <!-- Course Detail View -->
+    <div class="course-detail" id="courseDetail">
+      <button class="back-btn" onclick="backToCourses()" id="backBtn">← Back to Courses</button>
+      <h2 id="courseTitle"></h2>
+      <p id="courseDescription"></p>
+      <div class="course-info" id="courseInfo"></div>
+      <div class="modules-list" id="modulesList"></div>
+      <button class="enroll-btn" onclick="enrollCourse()" id="enrollBtn">Enroll Now</button>
+    </div>
+  </div>
+
+  <script>
+    // Translations
+    const translations = {
+      en: {
+        selectLanguage: 'Select Language',
+        pageTitle: 'Courses & Programs',
+        pageSubtitle: 'Explore our comprehensive coaching courses designed to enhance your skills and knowledge',
+        backBtn: '← Back to Courses',
+        enrollBtn: 'Enroll Now',
+        viewCourse: 'View Course',
+        duration: 'Duration',
+        level: 'Level',
+        modules: 'Modules',
+        courses: [
+          {
+            id: 1,
+            title: 'Self-Discovery Masterclass',
+            description: 'A comprehensive 8-week program designed to help you understand yourself on a deeper level. Through guided exercises, reflections, and interactive sessions, you will uncover your true values, strengths, and purpose.',
+            duration: '8 weeks',
+            level: 'Beginner',
+            modules: [
+              'Module 1: Understanding Your Core Values',
+              'Module 2: Identifying Your Strengths and Talents',
+              'Module 3: Overcoming Limiting Beliefs',
+              'Module 4: Creating Your Personal Vision'
+            ]
+          },
+          {
+            id: 2,
+            title: 'Emotional Intelligence & Resilience',
+            description: 'Develop emotional awareness and build resilience to navigate life\'s challenges. This 6-week course teaches you to manage emotions effectively, build stronger relationships, and bounce back from setbacks.',
+            duration: '6 weeks',
+            level: 'Intermediate',
+            modules: [
+              'Module 1: Understanding Emotions',
+              'Module 2: Emotional Regulation Techniques',
+              'Module 3: Building Resilience',
+              'Module 4: Healthy Relationships'
+            ]
+          },
+          {
+            id: 3,
+            title: 'Life Transformation Program',
+            description: 'The ultimate 12-week transformation program that combines all aspects of personal development. From self-discovery to goal achievement, this comprehensive course will guide you through a complete life makeover.',
+            duration: '12 weeks',
+            level: 'Advanced',
+            modules: [
+              'Module 1: Foundation & Self-Awareness',
+              'Module 2: Goal Setting & Planning',
+              'Module 3: Overcoming Obstacles',
+              'Module 4: Building Sustainable Habits',
+              'Module 5: Relationships & Communication',
+              'Module 6: Celebration & Integration'
+            ]
+          }
+        ]
+      },
+      ar: {
+        selectLanguage: 'اختر اللغة',
+        pageTitle: 'الدورات والبرامج',
+        pageSubtitle: 'استكشف دوراتنا التدريبية الشاملة المصممة لتحسين مهاراتك ومعرفتك',
+        backBtn: '← العودة إلى الدورات',
+        enrollBtn: 'التسجيل الآن',
+        viewCourse: 'عرض الدورة',
+        duration: 'المدة',
+        level: 'المستوى',
+        modules: 'الوحدات',
+        courses: [
+          {
+            id: 1,
+            title: 'فئة اكتشاف الذات الرئيسية',
+            description: 'برنامج شامل لمدة 8 أسابيع مصمم لمساعدتك على فهم نفسك على مستوى أعمق. من خلال التمارين الموجهة والتأملات والجلسات التفاعلية، ستكتشف قيمك الحقيقية وقوتك وهدفك.',
+            duration: '8 أسابيع',
+            level: 'مبتدئ',
+            modules: [
+              'الوحدة 1: فهم قيمك الأساسية',
+              'الوحدة 2: تحديد نقاط قوتك ومواهبك',
+              'الوحدة 3: التغلب على المعتقدات المحدودة',
+              'الوحدة 4: إنشاء رؤيتك الشخصية'
+            ]
+          },
+          {
+            id: 2,
+            title: 'الذكاء العاطفي والمرونة',
+            description: 'طور الوعي العاطفي وبناء المرونة للتعامل مع تحديات الحياة. تعلمك هذه الدورة لمدة 6 أسابيع كيفية إدارة العواطف بفعالية وبناء علاقات أقوى والعودة من النكسات.',
+            duration: '6 أسابيع',
+            level: 'متوسط',
+            modules: [
+              'الوحدة 1: فهم العواطف',
+              'الوحدة 2: تقنيات تنظيم العواطف',
+              'الوحدة 3: بناء المرونة',
+              'الوحدة 4: العلاقات الصحية'
+            ]
+          },
+          {
+            id: 3,
+            title: 'برنامج تحويل الحياة',
+            description: 'برنامج التحول الشامل لمدة 12 أسبوعاً يجمع بين جميع جوانب التطوير الشخصي. من اكتشاف الذات إلى تحقيق الأهداف، ستوجهك هذه الدورة الشاملة خلال تحول حياتي كامل.',
+            duration: '12 أسبوعاً',
+            level: 'متقدم',
+            modules: [
+              'الوحدة 1: الأساس والوعي الذاتي',
+              'الوحدة 2: تحديد الأهداف والتخطيط',
+              'الوحدة 3: التغلب على العقبات',
+              'الوحدة 4: بناء العادات المستدامة',
+              'الوحدة 5: العلاقات والتواصل',
+              'الوحدة 6: الاحتفال والتكامل'
+            ]
+          }
+        ]
+      }
+    };
+
+    let currentLanguage = 'en';
+    let currentCourseId = null;
+
+    function setLanguage(lang) {
+      currentLanguage = lang;
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      
+      // Hide language modal
+      document.getElementById('languageModal').classList.remove('active');
+      
+      // Update page content
+      updatePageContent();
+      renderCourses();
+    }
+
+    function updatePageContent() {
+      const t = translations[currentLanguage];
+      document.getElementById('pageTitle').textContent = t.pageTitle;
+      document.getElementById('pageSubtitle').textContent = t.pageSubtitle;
+      document.getElementById('selectLanguageText').textContent = t.selectLanguage;
+      document.getElementById('backBtn').textContent = t.backBtn;
+      document.getElementById('enrollBtn').textContent = t.enrollBtn;
+    }
+
+    function renderCourses() {
+      const t = translations[currentLanguage];
+      const coursesGrid = document.getElementById('coursesGrid');
+      coursesGrid.innerHTML = '';
+
+      t.courses.forEach(course => {
+        const courseCard = document.createElement('div');
+        courseCard.className = 'course-card';
+        courseCard.onclick = () => showCourseDetail(course.id);
+        courseCard.innerHTML = `
+          <h3>${course.title}</h3>
+          <p>${course.description.substring(0, 100)}...</p>
+          <div class="course-meta">
+            <span>${t.duration}: ${course.duration}</span>
+            <span>${t.level}: ${course.level}</span>
+          </div>
+          <button class="enroll-btn">${t.viewCourse}</button>
+        `;
+        coursesGrid.appendChild(courseCard);
+      });
+    }
+
+    function showCourseDetail(courseId) {
+      const t = translations[currentLanguage];
+      const course = t.courses.find(c => c.id === courseId);
+      
+      if (!course) return;
+
+      currentCourseId = courseId;
+      document.getElementById('coursesGrid').style.display = 'none';
+      document.getElementById('courseDetail').classList.add('active');
+      document.getElementById('courseTitle').textContent = course.title;
+      document.getElementById('courseDescription').textContent = course.description;
+
+      const courseInfo = document.getElementById('courseInfo');
+      courseInfo.innerHTML = `
+        <div class="course-info-item">
+          <strong>${t.duration}:</strong> <span>${course.duration}</span>
+        </div>
+        <div class="course-info-item">
+          <strong>${t.level}:</strong> <span>${course.level}</span>
+        </div>
+        <div class="course-info-item">
+          <strong>${t.modules}:</strong> <span>${course.modules.length}</span>
+        </div>
+      `;
+
+      const modulesList = document.getElementById('modulesList');
+      modulesList.innerHTML = '';
+
+      course.modules.forEach((module, index) => {
+        const moduleItem = document.createElement('div');
+        moduleItem.className = 'module-item';
+        moduleItem.innerHTML = `
+          <strong>${module}</strong>
+        `;
+        modulesList.appendChild(moduleItem);
+      });
+    }
+
+    function backToCourses() {
+      document.getElementById('coursesGrid').style.display = 'grid';
+      document.getElementById('courseDetail').classList.remove('active');
+      currentCourseId = null;
+    }
+
+    function enrollCourse() {
+      const t = translations[currentLanguage];
+      alert(t.enrollBtn + ' - Feature coming soon!');
+    }
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      // Don't auto-render, wait for language selection
+    });
+  </script>
+</body>
+</html>

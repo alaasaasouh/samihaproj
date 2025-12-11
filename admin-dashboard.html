@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Admin Dashboard - Samiha Zeineddine Life Coach" />
+  <title>Admin Dashboard - Samiha Zeineddine</title>
+
+  <!-- GLOBAL & ADMIN CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin-dashboard.css">
+
+  <!-- FONTS -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- COGNITO LIB -->
+  <script src="https://cdn.jsdelivr.net/npm/amazon-cognito-identity-js@6/dist/amazon-cognito-identity.min.js"></script>
+  <script src="js/cognito-config.js"></script>
+
+</head>
+
+<body>
+
+<!-- ==============================
+     1️⃣ ADMIN ACCESS PROTECTION
+=============================== -->
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    const session = await CognitoAuth.getCurrentSession();
+
+    // Not logged in → LOGIN PAGE
+    if (!session) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    const token = session.session.getIdToken().payload;
+    const groups = token["cognito:groups"] || [];
+
+    // Logged in but NOT admin → USER dashboard
+    if (!groups.includes("Admin")) {
+        window.location.href = "user-dashboard.html";
+        return;
+    }
+
+    // LOAD ADMIN PROFILE
+    const user = session.user;
+    user.getUserAttributes((err, attrs) => {
+        let name = "";
+        let email = "";
+
+        attrs.forEach(a => {
+            if (a.getName() === "name") name = a.getValue();
+            if (a.getName() === "email") email = a.getValue();
+        });
+
+        if (!name) name = email.split("@")[0];
+        document.getElementById("adminUserName").textContent = name;
+    });
+});
+</script>
+
+<!-- ==============================
+     MAIN ADMIN LAYOUT
+=============================== -->
+<div class="admin-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar">
+    <h2 data-i18n="adminPanel">⚙️ Admin Panel</h2>
+
+    <ul class="admin-nav">
+      <li><a class="nav-link active" onclick="switchAdminSection(event, 'dashboard')" data-i18n="dashboard">📊 Dashboard</a></li>
+      <li><a class="nav-link" onclick="switchAdminSection(event, 'users')" data-i18n="users">👥 Users</a></li>
+      <li><a class="nav-link" onclick="switchAdminSection(event, 'questions')" data-i18n="questions">❓ Questions</a></li>
+      <li><a class="nav-link" onclick="switchAdminSection(event, 'tests')" data-i18n="tests">📝 Tests</a></li>
+      <li><a class="nav-link" onclick="switchAdminSection(event, 'courses')" data-i18n="courses">📚 Courses</a></li>
+      <li><a class="nav-link" onclick="switchAdminSection(event, 'responses')" data-i18n="responses">💬 Responses</a></li>
+      <li><a class="nav-link" onclick="switchAdminSection(event, 'payments')" data-i18n="payments">💳 Payments</a></li>
+      <li><a class="nav-link" onclick="switchAdminSection(event, 'analytics')" data-i18n="analytics">📈 Analytics</a></li>
+    </ul>
+
+  </aside>
+
+
+  <!-- MAIN CONTENT AREA -->
+  <div class="admin-main">
+
+    <!-- HEADER -->
+    <div class="admin-header">
+      <h1 data-i18n="adminDashboard">Admin Dashboard</h1>
+
+      <div>
+        <span id="adminUserName" style="font-weight:bold;">Loading...</span>
+        <a href="index.html" style="text-decoration:none; color:#8B7355;" data-i18n="home">Home</a>
+        <button class="logout" onclick="adminLogout()" data-i18n="logout">Logout</button>
+      </div>
+    </div>
+
+    <!-- ==========================
+         CONTENT SECTIONS
+    ============================== -->
+    <div class="admin-content">
+
+      <!-- DASHBOARD SECTION -->
+      <section id="dashboard" class="admin-section active">
+        <h2 class="section-title" data-i18n="dashboardOverview">Dashboard Overview</h2>
+
+        <div class="stats-grid">
+          <div class="stat-box">
+            <h3 data-i18n="totalUsers">Total Users</h3>
+            <div class="number">0</div>
+          </div>
+          <div class="stat-box">
+            <h3 data-i18n="activeSessions">Active Sessions</h3>
+            <div class="number">0</div>
+          </div>
+          <div class="stat-box">
+            <h3 data-i18n="pendingQuestions">Pending Questions</h3>
+            <div class="number">0</div>
+          </div>
+          <div class="stat-box">
+            <h3 data-i18n="totalRevenue">Total Revenue</h3>
+            <div class="number">$0</div>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <h3 data-i18n="recentActivity">Recent Activity</h3>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Activity</th>
+                <th>Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="recentActivityBody"></tbody>
+          </table>
+        </div>
+
+      </section>
+
+
+      <!-- USERS SECTION -->
+      <section id="users" class="admin-section">
+        <h2 class="section-title" data-i18n="userManagement">User Management</h2>
+
+        <div class="admin-tabs">
+          <button class="admin-tab-btn active" onclick="switchTab(event, 'users-list')" data-i18n="allUsers">All Users</button>
+          <button class="admin-tab-btn" onclick="switchTab(event, 'add-user')" data-i18n="addUser">Add User</button>
+        </div>
+
+        <div id="users-list" class="tab-content active">
+          <div class="table-container">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Status</th>
+                  <th>Joined</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="add-user" class="tab-content">
+          <div class="form-section">
+            <h3 data-i18n="createNewUser">Create New User</h3>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" placeholder="Full Name">
+              </div>
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" placeholder="user@example.com">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" placeholder="Set password">
+            </div>
+
+            <button class="btn-submit" onclick="alert('User creation API coming soon')">Add User</button>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- QUESTIONS SECTION -->
+      <section id="questions" class="admin-section">
+        <h2 class="section-title">Manage Questions</h2>
+
+        <div class="admin-tabs">
+          <button class="admin-tab-btn active" onclick="switchTab(event, 'questions-list')">All Questions</button>
+          <button class="admin-tab-btn" onclick="switchTab(event, 'create-question')">Create Question</button>
+        </div>
+
+        <div id="questions-list" class="tab-content active">
+          <div class="table-container">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Question</th>
+                  <th>Category</th>
+                  <th>Created</th>
+                  <th>Used</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="questionsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="create-question" class="tab-content">
+          <div class="form-section">
+            <h3>Create New Question</h3>
+
+            <div class="form-group">
+              <label>Question Text</label>
+              <textarea placeholder="Enter question..."></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Category</label>
+                <select>
+                  <option>Self-Discovery</option>
+                  <option>Emotional Intelligence</option>
+                  <option>Values & Goals</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Difficulty</label>
+                <select>
+                  <option>Beginner</option>
+                  <option>Intermediate</option>
+                  <option>Advanced</option>
+                </select>
+              </div>
+            </div>
+
+            <button class="btn-submit" onclick="alert('Saved! API later')">Create Question</button>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- TESTS SECTION -->
+      <section id="tests" class="admin-section">
+        <h2 class="section-title">Manage Tests</h2>
+
+        <div class="admin-tabs">
+          <button class="admin-tab-btn active" onclick="switchTab(event, 'tests-list')">All Tests</button>
+          <button class="admin-tab-btn" onclick="switchTab(event, 'create-test')">Create Test</button>
+        </div>
+
+        <div id="tests-list" class="tab-content active">
+          <div class="table-container">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Test Name</th>
+                  <th>Type</th>
+                  <th>Questions</th>
+                  <th>Taken</th>
+                  <th>Created</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="testsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="create-test" class="tab-content">
+          <div class="form-section">
+            <h3>Create New Test</h3>
+
+            <div class="form-group">
+              <label>Test Name</label>
+              <input type="text" placeholder="Test name">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Type</label>
+                <select>
+                  <option>Personality</option>
+                  <option>Skill Assessment</option>
+                  <option>Values Assessment</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Number of Questions</label>
+                <input type="number" min="1" placeholder="20">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Description</label>
+              <textarea placeholder="Describe the test..."></textarea>
+            </div>
+
+            <button class="btn-submit">Create Test</button>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- COURSES SECTION -->
+      <section id="courses" class="admin-section">
+        <h2 class="section-title">Manage Courses</h2>
+
+        <div class="admin-tabs">
+          <button class="admin-tab-btn active" onclick="switchTab(event, 'courses-list')">All Courses</button>
+          <button class="admin-tab-btn" onclick="switchTab(event, 'create-course')">Create Course</button>
+        </div>
+
+        <div id="courses-list" class="tab-content active">
+          <div class="table-container">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Course</th>
+                  <th>Duration</th>
+                  <th>Price</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="coursesTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="create-course" class="tab-content">
+          <div class="form-section">
+            <h3>Create New Course</h3>
+
+            <div class="form-group">
+              <label>Course Name</label>
+              <input type="text" placeholder="Course name">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Duration (weeks)</label>
+                <input type="number" placeholder="8">
+              </div>
+              <div class="form-group">
+                <label>Price ($)</label>
+                <input type="number" placeholder="499">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Description</label>
+              <textarea placeholder="Describe the course..."></textarea>
+            </div>
+
+            <button class="btn-submit">Create Course</button>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- PAYMENTS SECTION -->
+      <section id="payments" class="admin-section">
+        <h2 class="section-title">Payments & Revenue</h2>
+
+        <div class="stats-grid">
+          <div class="stat-box">
+            <h3>Total Revenue</h3>
+            <div class="number">$0</div>
+          </div>
+
+          <div class="stat-box">
+            <h3>This Month</h3>
+            <div class="number">$0</div>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <h3>Recent Transactions</h3>
+
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="transactionsTableBody"></tbody>
+          </table>
+        </div>
+
+      </section>
+
+
+      <!-- ANALYTICS SECTION -->
+      <section id="analytics" class="admin-section">
+        <h2 class="section-title">Analytics</h2>
+
+        <div class="stats-grid">
+          <div class="stat-box">
+            <h3>Total Page Views</h3>
+            <div class="number">0</div>
+          </div>
+          <div class="stat-box">
+            <h3>Avg Session Duration</h3>
+            <div class="number">0m</div>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <h3>Engagement</h3>
+
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Tests Taken</th>
+                <th>Courses</th>
+                <th>Last Active</th>
+              </tr>
+            </thead>
+            <tbody id="analyticsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+    </div> <!-- END admin-content -->
+  </div> <!-- END admin-main -->
+</div> <!-- END admin-layout -->
+
+
+<!-- ==========================
+     TRANSLATION SYSTEM
+=========================== -->
+<script>
+const adminTranslations = {
+  en: {
+    adminPanel: "⚙️ Admin Panel",
+    dashboard: "📊 Dashboard",
+    users: "👥 Users",
+    questions: "❓ Questions",
+    tests: "📝 Tests",
+    courses: "📚 Courses",
+    responses: "💬 Responses",
+    payments: "💳 Payments",
+    analytics: "📈 Analytics",
+    adminDashboard: "Admin Dashboard",
+    home: "Home",
+    logout: "Logout",
+    dashboardOverview: "Dashboard Overview",
+    totalUsers: "Total Users",
+    activeSessions: "Active Sessions",
+    pendingQuestions: "Pending Questions",
+    totalRevenue: "Total Revenue",
+    recentActivity: "Recent Activity",
+    userManagement: "User Management",
+    allUsers: "All Users",
+    addUser: "Add User",
+    createNewUser: "Create New User"
+  },
+
+  ar: {
+    adminPanel: "⚙️ لوحة التحكم",
+    dashboard: "📊 لوحة القيادة",
+    users: "👥 المستخدمون",
+    questions: "❓ الأسئلة",
+    tests: "📝 الاختبارات",
+    courses: "📚 الدورات",
+    responses: "💬 الردود",
+    payments: "💳 المدفوعات",
+    analytics: "📈 التحليلات",
+    adminDashboard: "لوحة تحكم المسؤول",
+    home: "الرئيسية",
+    logout: "تسجيل الخروج",
+    dashboardOverview: "نظرة عامة",
+    totalUsers: "إجمالي المستخدمين",
+    activeSessions: "الجلسات النشطة",
+    pendingQuestions: "الأسئلة المعلقة",
+    totalRevenue: "إجمالي الإيرادات",
+    recentActivity: "النشاط الأخير",
+    userManagement: "إدارة المستخدمين",
+    allUsers: "جميع المستخدمين",
+    addUser: "إضافة مستخدم",
+    createNewUser: "إنشاء مستخدم جديد"
+  },
+
+  fr: {
+    adminPanel: "⚙️ Panneau Admin",
+    dashboard: "📊 Tableau de bord",
+    users: "👥 Utilisateurs",
+    questions: "❓ Questions",
+    tests: "📝 Tests",
+    courses: "📚 Cours",
+    responses: "💬 Réponses",
+    payments: "💳 Paiements",
+    analytics: "📈 Analyses",
+    adminDashboard: "Tableau de bord admin",
+    home: "Accueil",
+    logout: "Déconnexion",
+    dashboardOverview: "Aperçu général",
+    totalUsers: "Total des utilisateurs",
+    activeSessions: "Sessions actives",
+    pendingQuestions: "Questions en attente",
+    totalRevenue: "Revenu total",
+    recentActivity: "Activité récente",
+    userManagement: "Gestion des utilisateurs",
+    allUsers: "Tous les utilisateurs",
+    addUser: "Ajouter utilisateur",
+    createNewUser: "Créer un utilisateur"
+  }
+};
+
+function applyAdminLang(lang) {
+  const dict = adminTranslations[lang] || adminTranslations.en;
+
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    el.textContent = dict[el.getAttribute("data-i18n")];
+  });
+
+  if (lang === "ar") {
+      document.documentElement.dir = "rtl";
+      document.body.classList.add("rtl");
+  } else {
+      document.documentElement.dir = "ltr";
+      document.body.classList.remove("rtl");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const saved = localStorage.getItem("adminLang") || "en";
+    applyAdminLang(saved);
+});
+</script>
+
+
+<!-- ==========================
+     NAVIGATION / LOGOUT LOGIC
+=========================== -->
+<script>
+function switchAdminSection(e, id) {
+    document.querySelectorAll(".nav-link").forEach(n => n.classList.remove("active"));
+    e.target.classList.add("active");
+
+    document.querySelectorAll(".admin-section").forEach(s => s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+}
+
+function switchTab(e, id) {
+  document.querySelectorAll(".admin-tab-btn").forEach(t => t.classList.remove("active"));
+  e.target.classList.add("active");
+
+  document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+function adminLogout() {
+  const user = getCurrentUser();
+  if (user) user.signOut();
+  window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
