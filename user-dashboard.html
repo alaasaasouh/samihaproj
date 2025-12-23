@@ -1,6 +1,81 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <!-- Existing CSS files -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+  
+    <!-- ✅ ADD THIS STYLE BLOCK LAST -->
+    <style>
+      /* ============================
+         TESTS SECTION (INLINE FIX)
+      ============================ */
+  
+      #tests {
+        display: block;
+        width: 100%;
+      }
+  
+      #tests .tests-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
+        width: 100%;
+      }
+  
+      .test-card {
+        background: #fff;
+        border-radius: 10px;
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+  
+      .test-card h3 {
+        margin: 0 0 8px;
+        color: #8B7355;
+        font-size: 1.05rem;
+      }
+  
+      .test-meta {
+        font-size: 0.85rem;
+        color: #666;
+        margin-bottom: 10px;
+      }
+  
+      .test-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+      }
+  
+      .test-actions button {
+        flex: 1;
+        padding: 8px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        font-size: 0.85rem;
+      }
+  
+      .btn-start {
+        background: #8B7355;
+        color: #fff;
+      }
+  
+      .btn-view {
+        background: #eee;
+        color: #333;
+      }
+    </style>
+
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Dashboard - Samiha Zeineddine</title>
