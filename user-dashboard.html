@@ -469,16 +469,42 @@
       </section>
 
       <!-- MESSAGES & NOTIFICATIONS -->
-      <section id="messages" class="content-section active">
-        <div class="results-header">
-          <h2 data-i18n="navMessages">Messages & Notifications</h2>
-          <p>Your communication center</p>
-        </div>
+      <section class="content-section active" id="messages" >
 
-        <div class="message-box" style="background:white;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-          <h3 style="color:#8B7355;">No new messages</h3>
-          <p>You will receive updates and replies from Samiha here.</p>
+      <div id="userSamihaQABox" style="background:white;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+          <h4 style="margin:0;color:#8B7355;">Your Questions to Samiha</h4>
+          <button id="reloadUserSamihaBtn"
+                  style="border:none;background:#eee;padding:8px 12px;border-radius:8px;cursor:pointer;">
+            Refresh
+          </button>
         </div>
+      
+        <p id="userSamihaStatus" style="margin:10px 0 0;color:#666;">Loading...</p>
+      
+        <div id="userSamihaList"
+             style="margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
+        </div>
+      </div>
+      
+      <!-- Answer modal -->
+      <div id="userSamihaAnswerModal"
+           style="position:fixed;inset:0;background:rgba(0,0,0,0.55);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px;">
+        <div style="width:min(720px,100%);background:#fff;border-radius:14px;padding:16px 16px 14px;box-shadow:0 10px 30px rgba(0,0,0,0.18);">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+            <h2 style="margin:0;color:#8B7355;">Samiha’s Answer</h2>
+            <button id="closeUserSamihaAnswerModalBtn"
+                    style="border:none;background:transparent;font-size:20px;cursor:pointer;padding:6px 10px;border-radius:10px;">
+            </button>
+          </div>
+      
+          <p id="userSamihaModalQuestion" style="margin:10px 0 8px;color:#333;font-weight:600;"></p>
+      
+          <div id="userSamihaModalAnswer"
+               style="border:1px solid #eee;border-radius:12px;padding:12px;background:#faf7f3;color:#333;line-height:1.55;min-height:80px;">
+          </div>
+        </div>
+      </div>
       </section>
 
       <!-- SETTINGS SECTION -->
@@ -958,7 +984,11 @@
 <script src="js/admin-config.js"></script>
 
 <!-- Cognito helpers -->
-<script src="js/cognito-config.js"></script>
+<script src="js/cognito-config.js"></script> 
+<!-- SHOW YOUR QUESTIONS TO SAMIHA -->
+
+<script src="js/user-questions-samiha.js"></script>
+
 <!-- ready questions -->
 
 <script src="js/personalized-questions.js"></script>
