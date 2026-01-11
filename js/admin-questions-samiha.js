@@ -117,7 +117,7 @@ if (!window.ADMIN_ENV || !ADMIN_ENV.API_BASE_URL) {
       const res = await fetch(
         `${ADMIN_ENV.API_BASE_URL}/questions-for-samiha/${questionId}`,
         {
-          method: "POST",
+          method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ answer })
         }
