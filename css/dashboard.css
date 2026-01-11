@@ -775,4 +775,21 @@ body.rtl .nav-item.active {
         flex-grow: 1;
         margin-right: 10px;
     }
+      /* Mobile-only: bigger hamburger + bigger close X */
+@media (max-width: 992px) {
+    .hamburger-menu {
+      font-size: 30px;      /* bigger ☰ */
+      padding: 12px 14px;
+      line-height: 1;
+    }
+  
+    .close-sidebar-btn {
+      font-size: 26px;      /* bigger ✕ */
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      line-height: 1;
+    }
+  }
+  
 }
