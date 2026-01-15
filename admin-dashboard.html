@@ -211,75 +211,31 @@ document.addEventListener("DOMContentLoaded", async () => {
   <div id="questionsList" style="display:flex;flex-direction:column;gap:12px;"></div>
 </section>
 
-        </section>
+     </section>
         
 
-      </section>
 
-
-      <!-- TESTS SECTION -->
-      <section id="tests" class="admin-section">
-        <h2 class="section-title">Manage Tests</h2>
-
-        <div class="admin-tabs">
-          <button class="admin-tab-btn active" onclick="switchTab(event, 'tests-list')">All Tests</button>
-          <button class="admin-tab-btn" onclick="switchTab(event, 'create-test')">Create Test</button>
+      <div style="margin-top:40px;">
+        <h3 class="section-title">Users Who Took Tests</h3>
+      
+        <div class="table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>Test Name</th>
+                <th>Diagnosis</th>
+                <th>Completed At</th>
+              </tr>
+            </thead>
+      
+            <!-- THIS ID MUST EXIST -->
+            <tbody id="usersTestsTableBody"></tbody>
+          </table>
         </div>
-
-        <div id="tests-list" class="tab-content active">
-          <div class="table-container">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Test Name</th>
-                  <th>Type</th>
-                  <th>Questions</th>
-                  <th>Taken</th>
-                  <th>Created</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="testsTableBody"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <div id="create-test" class="tab-content">
-          <div class="form-section">
-            <h3>Create New Test</h3>
-
-            <div class="form-group">
-              <label>Test Name</label>
-              <input type="text" placeholder="Test name">
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label>Type</label>
-                <select>
-                  <option>Personality</option>
-                  <option>Skill Assessment</option>
-                  <option>Values Assessment</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Number of Questions</label>
-                <input type="number" min="1" placeholder="20">
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label>Description</label>
-              <textarea placeholder="Describe the test..."></textarea>
-            </div>
-
-            <button class="btn-submit">Create Test</button>
-          </div>
-        </div>
-
-      </section>
-
-
+      </div>
+      
+    </section>
       <!-- COURSES SECTION -->
       <section id="courses" class="admin-section">
         <h2 class="section-title">Manage Courses</h2>
@@ -556,6 +512,8 @@ function adminLogout() {
 <script src="js/admin-api.js"></script>
 <script src="js/admin-users.js"></script>
 <script src="js/admin-questions-samiha.js"></script>
+<script src="js/admin-tests-users.js"></script>
+
 
 
 </body>
