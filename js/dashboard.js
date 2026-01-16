@@ -78,9 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (translationKey) {
                     pageTitle.setAttribute('data-i18n', translationKey);
                     // Manually trigger translation update for the title if the i18n object is available
-                    if (typeof applyTranslations === 'function') {
-                        applyTranslations(localStorage.getItem('selectedLanguage') || 'en');
-                    } else {
+                    if (typeof applyDashboardLang === 'function') {
+                        applyDashboardLang(localStorage.getItem('dashboardLang') || 'en');
+                      }
+                     else {
                         // Fallback to plain text if i18n is not loaded yet
                         pageTitle.textContent = newTitle;
                     }
