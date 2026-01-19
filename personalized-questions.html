@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Personalized Questions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Main Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- Cognito -->
+  <script src="https://cdn.jsdelivr.net/npm/amazon-cognito-identity-js@6/dist/amazon-cognito-identity.min.js"></script>
+
+  <!-- Page polish (safe inline only) -->
+  <style>
+    body {
+      background: #f6f4f1;
+    }
+
+    .personalized-page-wrapper {
+      max-width: 920px;
+      margin: 40px auto;
+      padding: 0 16px;
+    }
+
+    .personalized-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.06);
+    }
+
+    .results-header h2 {
+      margin-bottom: 6px;
+    }
+
+    .results-header p {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .reflection-box {
+      margin-top: 22px;
+      padding: 18px;
+      background: #faf7f3;
+      border-left: 4px solid #8B7355;
+      border-radius: 12px;
+      font-style: italic;
+      color: #444;
+      line-height: 1.7;
+    }
+
+    .question-input {
+      margin-top: 20px;
+    }
+
+    .question-input textarea {
+      width: 100%;
+      min-height: 140px;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    .question-input textarea:focus {
+      outline: none;
+      border-color: #8B7355;
+      box-shadow: 0 0 0 3px rgba(139,115,85,0.15);
+    }
+
+    .question-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .char-count {
+      font-size: 0.85rem;
+      color: #777;
+    }
+
+    .send-btn {
+      background: #8B7355;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 20px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .send-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .status-text {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="dashboard-header">
+  <a href="index.html" class="btn-secondary">⬅ Back to Home</a>
+  <h1>Personalized Questions</h1>
+</header>
+
+<!-- MAIN -->
+<main class="personalized-page-wrapper">
+
+  <!-- IMPORTANT: SAME ID YOUR JS EXPECTS -->
+  <section id="personalized" class="content-section active">
+
+    <div class="personalized-card">
+
+      <div class="results-header">
+        <h2>Your Personal Reflection Space</h2>
+        <p>
+          This is a private space to reflect, ask, and explore your thoughts.
+          Samiha will personally review and respond to your questions.
+        </p>
+      </div>
+
+      <!-- Gentle coaching message -->
+      <div class="reflection-box">
+        “Growth begins when we allow ourselves to ask honest questions —
+        even the ones we don’t yet have answers to.”
+      </div>
+
+      <!-- SAME ELEMENTS USED IN DASHBOARD -->
+      <div class="question-input">
+
+        <textarea
+          id="dashboardSamihaQuestion"
+          maxlength="700"
+          placeholder="Write your question to Samiha here… (max 700 characters)">
+        </textarea>
+
+        <div class="question-actions">
+          <span id="dashboardCharCount" class="char-count">0 / 700</span>
+
+          <button
+            class="send-btn"
+            onclick="submitDashboardSamihaQuestion()">
+            Send to Samiha
+          </button>
+        </div>
+
+        <p id="dashboardSamihaStatus" class="status-text"></p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<!-- ======================
+     JS (ORDER MATTERS)
+====================== -->
+
+<!-- Admin / API config -->
+<script src="js/admin-config.js"></script>
+
+<!-- Cognito helpers -->
+<script src="js/cognito-config.js"></script>
+
+<!-- Personalized questions logic -->
+<script src="js/personalized-questions.js"></script>
+
+<!-- Shared helpers -->
+<script src="js/dashboard-samiha.js"></script>
+
+</body>
+</html>

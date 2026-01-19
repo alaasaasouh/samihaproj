@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Personality Tests</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Main Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- Cognito -->
+  <script src="https://cdn.jsdelivr.net/npm/amazon-cognito-identity-js@6/dist/amazon-cognito-identity.min.js"></script>
+
+  <!-- Small page-specific polish -->
+  <style>
+    body {
+      background: #f6f4f1;
+    }
+
+    .tests-page-wrapper {
+      max-width: 920px;
+      margin: 40px auto;
+      padding: 0 16px;
+    }
+
+    .tests-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    }
+
+    .results-header h2 {
+      margin-bottom: 6px;
+    }
+
+    .results-header p {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    #testsStatus {
+      margin: 16px 0;
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    #testsList {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="dashboard-header">
+  <a href="index.html" class="btn-secondary">⬅ Back to Home</a>
+  <h1>Personality Tests</h1>
+</header>
+
+<!-- MAIN -->
+<main class="tests-page-wrapper">
+
+  <!-- IMPORTANT: SAME ID YOUR JS EXPECTS -->
+  <section id="tests" class="content-section active">
+
+    <div class="tests-card">
+
+      <div class="results-header">
+        <h2>Personality Assessments</h2>
+        <p>
+          Answer each question honestly and calmly.
+          There are no right or wrong answers — this space is for self-awareness.
+        </p>
+      </div>
+
+      <!-- Status / Loading -->
+      <div id="testsStatus"></div>
+
+      <!-- Dynamic content injected by user-tests.js -->
+      <div id="testsList"></div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<!-- ======================
+     JS (ORDER MATTERS)
+====================== -->
+
+<!-- Admin / API config -->
+<script src="js/admin-config.js"></script>
+
+<!-- Cognito helpers -->
+<script src="js/cognito-config.js"></script>
+
+<!-- User tests logic (FULLY REUSED) -->
+<script src="js/user-tests.js"></script>
+
+<!-- Optional shared dashboard helpers -->
+<script src="js/dashboard-samiha.js"></script>
+
+</body>
+</html>
