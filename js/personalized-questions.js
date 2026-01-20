@@ -47,7 +47,7 @@ readuy questions
         hint.textContent = "This question has not been answered yet.";
       } else {
         // Later: you can change this to “Unlock with payment”
-        hint.textContent = "Tip: Payment lock can be added here later.";
+
       }
   
       modal.style.display = "flex";
@@ -193,3 +193,4 @@ readuy questions
     });
   })();
   
+
