@@ -396,7 +396,40 @@
     </div>
   </div>
 </div>
+<!-- BOOK SESSION MODAL -->
+<section></section>
+<div id="book-modal" class="expanded-card-modal">
+  <button class="close-btn" onclick="closeExpandedCard()">✕</button>
 
+  <div class="modal-content">
+    <h2 data-i18n="bookModalTitle">Book Your Session</h2>
+
+    <p data-i18n="bookModalSubtitle">
+      Schedule your personalized coaching session and start your transformation journey today.
+    </p>
+
+    <div class="modal-description">
+      <h4 data-i18n="bookModalOptionsTitle">Session Options:</h4>
+
+      <div class="modal-links">
+        <a href="https://wa.me/96103960540"
+          target="_blank"
+          class="modal-link"
+           onclick="handleLink(event)"
+           data-i18n="bookWhatsapp">
+         💬 WhatsApp Now
+       </a>
+
+        <a href="#contact"
+            class="modal-link"
+           onclick="closeExpandedCard()"
+           data-i18n="bookContactSection">
+           Contact us section
+       </a>
+    </div>
+  </div>
+  </div>
+</div>
 <!-- LIFE COACHING SECTION -->
 <section
   class="services-section"
