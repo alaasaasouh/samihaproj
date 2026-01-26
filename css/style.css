@@ -25,16 +25,28 @@
       COLOR VARIABLES
       ============================================ */
    
-   :root {
-     --primary-color: #616e5f;      /* Darkest, for text, primary buttons, main accents */
-     --secondary-color: #92a07f;    /* Secondary accent, links, hover states */
-     --light-accent: #d9d3bf;       /* Light accent, borders, subtle highlights */
-     --background-light: #f7f4f0;   /* Lightest background */
-     --background-medium: #f1e7d5;  /* Medium background, sections */
-     --text-color: #1a1a1a;         /* Near black for contrast */
-     --border-color: #d9d3bf;
-   }
-   
+  :root {
+  /* === BRAND CORE COLORS === */
+  --primary-color: #033A35;        /* Deep teal – main text, headings, strong accents */
+  --secondary-color: #d4af37;
+
+      /* Gold – buttons, highlights, CTAs */
+  --accent-color: #48807D;         /* Muted teal – hover states, icons */
+  --light-accent: #E6D6A7;          /* Soft gold – borders, subtle highlights */
+
+  /* === BACKGROUNDS === */
+  --background-light: #F5F1E8;      /* Light warm background */
+  --background-medium: #E6D6A7;     /* Section background */
+
+  /* === TEXT & UI === */
+  --text-color: #011514;            /* Near-black green for readability */
+  --border-color: #48807D;          /* Soft teal borders */
+
+  /* === OPTIONAL EXTRAS (future-proof) === */
+  --dark-bg: #011514;
+  --overlay-bg: rgba(3, 58, 53, 0.85);
+}
+
    /* ============================================
       TOP HEADER BAR
       ============================================ */
@@ -256,77 +268,120 @@
       HERO SECTION - NEW DESIGN
       ============================================ */
    
-   .hero-section {
-     position: relative;
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     justify-content: flex-start;
-     min-height: 100vh;
-     padding-top: 100px;
-     overflow: hidden;
+ /* ============================================
+   HERO SECTION – FINAL FIX (RESPONSIVE & CLEAN)
+============================================ */
+
+.hero-section {
+  position: relative;
   background-color: #f7f4f0;
-   }
-   
-   .hero-content-wrapper {
-     position: relative;
-     width: 100%;
-     min-height: 600px;
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     z-index: 1;
-   }
-   
-   .hero-title {
-     position: absolute;
-     left: 10%;
-     top: 50%;
-     transform: translateY(-50%);
-     font-family: "Playfair Display", serif;
-     font-size: 3.5rem;
-     color: var(--primary-color);
-     max-width: 40%;
-     z-index: 10;
-     opacity: 0;
-     animation: slideInFromLeft 1.2s ease-out 0.3s forwards;
-   }
-   
-   @keyframes slideInFromLeft {
-     0% {
-       opacity: 0;
-       transform: translateY(-50%) translateX(-100px);
-     }
-     100% {
-       opacity: 1;
-       transform: translateY(-50%) translateX(0);
-     }
-   }
-   
-   .hero-image {
-     position: absolute;
-     right: 0;
-     bottom: 0;
-     height: 100%;
-     width: 55%;
-     object-fit: cover;
-     z-index: 5;
-     opacity: 0;
-     animation: fadeIn 1s ease-out 0.5s forwards;
-     border: 3px solid var(--secondary-color);
-     border-radius: 5px;
-     box-shadow: 0 8px 30px rgba(74, 95, 74, 0.2);
-   }
-   
-   @keyframes fadeIn {
-     0% {
-       opacity: 0;
-     }
-     100% {
-       opacity: 1;
-     }
-   }
-   
+  padding-top: 120px;
+  padding-bottom: 80px;
+}
+
+/* MAIN HERO LAYOUT */
+.hero-content-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 80px;
+}
+
+/* HERO TITLE (TEXT LEFT) */
+.hero-title {
+  flex: 1;
+  position: relative;
+
+  font-family: "Playfair Display", serif;
+  font-size: 3.5rem;
+  line-height: 1.3;
+  color: var(--primary-color);
+
+  max-width: 100%;
+  margin: 0;
+
+  opacity: 0;
+  animation: slideInFromLeft 1.2s ease-out 0.3s forwards;
+}
+
+/* TITLE ANIMATION */
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-80px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* HERO IMAGE (RIGHT SIDE) */
+/* HERO IMAGE (RIGHT SIDE) */
+.hero-image {
+  flex: 0 0 auto;
+  position: relative;
+
+  width: auto;
+  max-width: 380px;
+  max-height: 380px;
+  height: auto;
+
+  object-fit: contain;
+
+  /* NO BORDER / NO CARD */
+  border: none;
+  background: none;
+  box-shadow: none;
+
+  display: block;
+
+  /* ✅ ALWAYS VISIBLE */
+  opacity: 1;
+}
+
+
+/* ============================================
+   MOBILE RESPONSIVENESS
+============================================ */
+
+@media (max-width: 768px) {
+  .hero-content-wrapper {
+    flex-direction: column;
+    text-align: center;
+    gap: 30px;
+  }
+
+  .hero-title {
+    font-size: 2.2rem;
+  }
+
+  .hero-image {
+    max-width: 260px;
+    max-height: 260px;
+    height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.9rem;
+  }
+
+  .hero-image {
+    max-width: 210px;
+    max-height: 210px;
+    height: auto;
+  }
+}
+
+
    /* OLD tile container - hidden */
    .tile-container {
      display: none !important;
