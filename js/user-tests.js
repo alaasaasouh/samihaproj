@@ -132,6 +132,8 @@ const translations = {
     testsIntro: "Veuillez choisir un test pour commencer votre voyage de découverte de soi."
   }
 };
+let TEST_TIMER_INTERVAL = null;
+let TEST_START_TIME = null;
 
 let currentLanguage = localStorage.getItem("selectedLanguage") || "en";
 
@@ -407,7 +409,19 @@ console.log("✅ CURRENT_SESSION_ID SET TO:", CURRENT_SESSION_ID);
     alert(tr("noQuestions"));
     return;
   }
-  
+  TEST_START_TIME = Date.now();
+
+if (TEST_TIMER_INTERVAL) clearInterval(TEST_TIMER_INTERVAL);
+
+TEST_TIMER_INTERVAL = setInterval(() => {
+  const elapsed = Math.floor((Date.now() - TEST_START_TIME) / 1000);
+  const min = String(Math.floor(elapsed / 60)).padStart(2, "0");
+  const sec = String(elapsed % 60).padStart(2, "0");
+
+  const timerEl = document.getElementById("testTimer");
+  if (timerEl) timerEl.textContent = `⏱ ${min}:${sec}`;
+}, 1000);
+
 
   renderTestUI();
 }
@@ -591,6 +605,11 @@ console.groupEnd();
     console.error(e);
     alert(tr("failedToLoadTests"));
   }
+  if (TEST_TIMER_INTERVAL) {
+    clearInterval(TEST_TIMER_INTERVAL);
+    TEST_TIMER_INTERVAL = null;
+  }
+  
 }
 
 async function loadLatestDiagnosis(userId) {
@@ -603,6 +622,12 @@ async function loadLatestDiagnosis(userId) {
 function showDiagnosisResult(d) {
   const section = document.getElementById("tests");
   const dateStr = d.test_completed_at ? formatDate(d.test_completed_at) : "";
+  const diagnosisTitle =
+  d.diagnosis_text ||
+  d.name ||
+  d.diagnosis_name ||
+  "";
+
 
   section.innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:30px;flex-wrap:wrap;">
@@ -614,7 +639,21 @@ function showDiagnosisResult(d) {
 
     <div style="max-width:820px;margin:20px auto 0;background:#fff;padding:26px;border-radius:16px;box-shadow:0 4px 18px rgba(0,0,0,0.08);border:1px solid #eee;">
       <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-end;">
-        <h3 style="margin:0;color:#8B7355;">${escapeHtml(d.test_name)}</h3>
+      <h3 style="
+      margin:0;
+      color:#033A35;
+      font-size:1.6rem;
+      font-weight:900;
+      font-family:'Playfair Display', serif;
+    ">
+      ${escapeHtml(
+        d.diagnosis_text ||
+        d.name ||
+        d.diagnosis_name ||
+        ""
+      )}
+    </h3>
+    
         ${dateStr ? `<span style="color:#777;font-size:0.85rem;">${tr("completedOn", { date: dateStr })}</span>` : ""}
       </div>
 
