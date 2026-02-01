@@ -435,12 +435,51 @@ function renderTestUI() {
   section.innerHTML = `
     <div class="results-header">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:30px;flex-wrap:wrap;">
-        <div>
-          <h2 style="margin:0;font-family:'Playfair Display', serif;color:#033A35;">
-            ${escapeHtml(CURRENT_QUESTIONS[0]?.name || "Test")}
-          </h2>
-          <p data-i18n="pleaseAnswerHonestly" style="margin:6px 0 0;color:#555;">${tr("pleaseAnswerHonestly")}</p>
-        </div>
+      <div>
+      <h2
+        style="
+          margin:0;
+          font-family:'Playfair Display', serif;
+          background: linear-gradient(
+            135deg,
+            #fff4c2,
+            #f4d35e,
+            #d4af37,
+            #c9a227,
+            #fff4c2
+          );
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          color: transparent;
+          font-weight: 700;
+          letter-spacing: 0.5px;
+        ">
+        ${escapeHtml(CURRENT_QUESTIONS[0]?.name || "Test")}
+      </h2>
+    
+      <p
+        data-i18n="pleaseAnswerHonestly"
+        style="
+          margin:6px 0 0;
+          background: linear-gradient(
+            135deg,
+            #fff4c2,
+            #f4d35e,
+            #d4af37,
+            #c9a227,
+            #fff4c2
+          );
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          color: transparent;
+          font-weight: 500;
+        ">
+        ${tr("pleaseAnswerHonestly")}
+      </p>
+    </div>
+    
         <div id="testTimer" style="background:#E6D6A7;padding:10px 22px;border-radius:30px;font-weight:800;color:#033A35;border:2px solid #D4AF37;font-size:0.95rem;white-space:nowrap;">
           ⏱ 00:00
         </div>
@@ -631,10 +670,50 @@ function showDiagnosisResult(d) {
 
   section.innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:30px;flex-wrap:wrap;">
-      <div>
-        <h2 style="margin:0;font-family:'Playfair Display', serif;color:#033A35;">${escapeHtml(d.test_name)}</h2>
-        <p style="margin:6px 0 0;color:#555;">${tr("pleaseAnswerHonestly")}</p>
-      </div>
+    <div>
+    <h2
+      style="
+        margin:0;
+        font-family:'Playfair Display', serif;
+        background: linear-gradient(
+          135deg,
+          #fff4c2,
+          #f4d35e,
+          #d4af37,
+          #c9a227,
+          #fff4c2
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      ">
+      ${escapeHtml(CURRENT_QUESTIONS[0]?.name || "Test")}
+    </h2>
+  
+    <p
+      data-i18n="pleaseAnswerHonestly"
+      style="
+        margin:6px 0 0;
+        background: linear-gradient(
+          135deg,
+          #fff4c2,
+          #f4d35e,
+          #d4af37,
+          #c9a227,
+          #fff4c2
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+        font-weight: 500;
+      ">
+      ${tr("pleaseAnswerHonestly")}
+    </p>
+  </div>
     </div>
 
     <div style="max-width:820px;margin:20px auto 0;background:#fff;padding:26px;border-radius:16px;box-shadow:0 4px 18px rgba(0,0,0,0.08);border:1px solid #eee;">
