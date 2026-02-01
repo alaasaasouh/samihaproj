@@ -73,3 +73,21 @@ async function initI18n() {
 
 // Run initialization
 document.addEventListener('DOMContentLoaded', initI18n);
+// Add this to the bottom of your i18n.js
+document.addEventListener("DOMContentLoaded", () => {
+    // Get the saved language or default to English
+    const savedLang = localStorage.getItem("selectedLanguage") || "en";
+    
+    // 1. Update the dropdown to match the saved language
+    const langSelect = document.getElementById("languageSelect");
+    if (langSelect) {
+      langSelect.value = savedLang;
+    }
+  
+    // 2. Apply the translations using your existing function
+    // We pass the savedLang to your applyTranslations function
+    if (typeof applyTranslations === "function") {
+      applyTranslations(savedLang);
+    }
+  });
+  
