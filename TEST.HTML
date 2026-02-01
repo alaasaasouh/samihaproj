@@ -17,9 +17,10 @@
 
   <!-- Small page-specific polish -->
   <style>
-    body {
-      background: #f6f4f1;
-    }
+   body {
+  background: #E6D6A7;
+}
+
 
     .tests-page-wrapper {
       max-width: 920px;
@@ -60,8 +61,49 @@
 
 <!-- HEADER -->
 <header class="dashboard-header">
-  <a href="index.html" class="btn-secondary">⬅ Back to Home</a>
-  <h1>Personality Tests</h1>
+  <a href="index.html"
+  style="
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 28px;
+    border-radius:35px;
+    font-weight:800;
+    text-decoration:none;
+    color:#033A35;
+    background:linear-gradient(
+      135deg,
+      #fff4c2,
+      #f4d35e,
+      #d4af37,
+      #c9a227,
+      #fff4c2
+    );
+    box-shadow:0 8px 25px rgba(212,175,55,0.35);
+    transition:all 0.3s ease;
+  "
+  onmouseover="this.style.transform='translateY(-2px)'"
+  onmouseout="this.style.transform='translateY(0)'"
+>
+<span data-i18n="backHome"></span>
+
+</a>
+
+<h1 data-i18n="personalityTests"></h1>
+
+  <select id="languageSelect" style="
+  padding:8px 14px;
+  border-radius:20px;
+  border:1px solid #D4AF37;
+  font-weight:700;
+  background:#fff;
+  color:#033A35;
+">
+  <option value="en">EN</option>
+  <option value="ar">AR</option>
+  <option value="fr">FR</option>
+</select>
+
 </header>
 
 <!-- MAIN -->
@@ -73,15 +115,16 @@
     <div class="tests-card">
 
       <div class="results-header">
-        <h2>Personality Assessments</h2>
-        <p>
-          Answer each question honestly and calmly.
-          There are no right or wrong answers — this space is for self-awareness.
-        </p>
+        <h2 data-i18n="personalityAssessments"></h2>
+
+
+        <p data-i18n="testsIntro"></p>
+
       </div>
 
       <!-- Status / Loading -->
       <div id="testsStatus"></div>
+
 
       <!-- Dynamic content injected by user-tests.js -->
       <div id="testsList"></div>
@@ -107,6 +150,10 @@
 
 <!-- Optional shared dashboard helpers -->
 <script src="js/dashboard-samiha.js"></script>
+<!-- translate
+ -->
+<script src="js/i18n.js"></script>
+
 
 </body>
 </html>
